@@ -19,4 +19,3 @@ describe("Updates quest to end-mission", () => {
     expect(statusCode).toBe(500);
   });
 });
-export {};
