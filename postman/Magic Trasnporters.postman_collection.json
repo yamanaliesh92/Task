@@ -1,0 +1,225 @@
+{
+	"info": {
+		"_postman_id": "a9c4f89e-8ce1-4136-aa05-033abc7bfea6",
+		"name": "Magic Trasnporters",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "3972101"
+	},
+	"item": [
+		{
+			"name": "Magic Item",
+			"item": [
+				{
+					"name": "Create MagicItems",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json();",
+									"",
+									"pm.globals.set('magic_item_id', response._id)"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"new magic item\",\n    \"weight\": 5000\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/magic-item",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"magic-item"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Magic Mover",
+			"item": [
+				{
+					"name": "Create MagicMover",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json();",
+									"",
+									"pm.globals.set('magic_mover_id', response._id)"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"weightLimit\": 1000\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/magic-mover",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"magic-mover"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Load MagicMover",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"items\": [\"{{magic_item_id}}\"]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/magic-mover/{{magic_mover_id}}/load",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"magic-mover",
+								"{{magic_mover_id}}",
+								"load"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "StartMission MagicMover",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/magic-mover/{{magic_mover_id}}/start-mission",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"magic-mover",
+								"{{magic_mover_id}}",
+								"start-mission"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "EndMission MagicMover",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/magic-mover/{{magic_mover_id}}/end-mission",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"magic-mover",
+								"{{magic_mover_id}}",
+								"end-mission"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List MagicMover",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"items\": [\"{{magic_item_id}}\"]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/magic-mover",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"magic-mover"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
