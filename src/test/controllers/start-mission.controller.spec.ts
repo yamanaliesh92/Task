@@ -9,7 +9,7 @@ import { MockMagicMoverService } from "../../mock";
 import { DEFAULT_ERROR } from "../../constant";
 import { MagicMoverController } from "../../controller";
 import { IMagicMover, QuestStatus } from "../../model/magic-mover";
-describe("magic-mover controller", () => {
+describe("MagicMoverController startMission", () => {
   let res: Response;
   let service: MockMagicMoverService;
   let controller: MagicMoverController;

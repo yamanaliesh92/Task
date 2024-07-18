@@ -8,7 +8,7 @@ import { MagicMoverService } from "../../services";
 import { IMagicMover, QuestStatus } from "../../model/magic-mover";
 import { MockMagicMoverRepository } from "../../mock";
 
-describe("magic-mover service", () => {
+describe("MagicMoverService", () => {
   let magicMoverRep = new MockMagicMoverRepository();
   let magicMoverSer = new MagicMoverService(magicMoverRep);
 
@@ -24,7 +24,8 @@ describe("magic-mover service", () => {
       id: new mongoose.Types.ObjectId(),
     });
 
-    jest.spyOn(magicMoverRep, "addMagicMover").mockResolvedValue(magicMover);
+    jest.spyOn(magicMoverRep, "create").mockResolvedValue(magicMover);
+
     const result = await magicMoverSer.createMagicMover(body as IMagicMover);
     expect(result?.questState).toEqual(body.questState);
   });
@@ -41,7 +42,8 @@ describe("magic-mover service", () => {
       id: new mongoose.Types.ObjectId(),
     });
 
-    jest.spyOn(magicMoverRep, "updateMagicMover").mockResolvedValue(magicMover);
+    jest.spyOn(magicMoverRep, "update").mockResolvedValue(magicMover);
+
     const result = await magicMoverSer.updateMagicMover(
       id,
       body as IMagicMover

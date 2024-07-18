@@ -1,16 +1,16 @@
-import "reflect-metadata";
-import { createMock } from "@golevelup/ts-jest";
 import { faker } from "@faker-js/faker";
-import mongoose from "mongoose";
+import { createMock } from "@golevelup/ts-jest";
 import { getMockReq, getMockRes } from "@jest-mock/express";
 import { Response } from "express";
+import mongoose from "mongoose";
+import "reflect-metadata";
 
-import { mockCreateMagicMoverPayload, MockMagicMoverService } from "../../mock";
 import { DEFAULT_ERROR } from "../../constant";
 import { MagicMoverController } from "../../controller";
+import { mockCreateMagicMoverPayload, MockMagicMoverService } from "../../mock";
 import { IMagicMover, QuestStatus } from "../../model/magic-mover";
 
-describe("magic-mover controller", () => {
+describe("MagicMoverController create method", () => {
   let res: Response;
   let service: MockMagicMoverService;
   let controller: MagicMoverController;

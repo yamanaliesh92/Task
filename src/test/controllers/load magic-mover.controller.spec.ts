@@ -9,7 +9,7 @@ import { MockMagicMoverService } from "../../mock";
 import { DEFAULT_ERROR } from "../../constant";
 import { MagicMoverController } from "../../controller";
 import { IMagicMover, QuestStatus } from "../../model/magic-mover";
-describe("magic-mover controller", () => {
+describe("MagicMoverController load", () => {
   let res: Response;
   let service: MockMagicMoverService;
   let controller: MagicMoverController;
@@ -26,10 +26,12 @@ describe("magic-mover controller", () => {
       "51969497874c503b14a81203",
       "32969497874c503b14a81203",
     ];
+
     const req = getMockReq({
       params: { id: "66969497874c503b14a81203" },
       body: items,
     });
+
     const item: IMagicMover = createMock<IMagicMover>({
       weightLimit: faker.number.int(),
       questState: QuestStatus.RESTING,

@@ -9,7 +9,7 @@ import { MockMagicMoverService } from "../../mock";
 import { DEFAULT_ERROR } from "../../constant";
 import { MagicMoverController } from "../../controller";
 import { IMagicMover, QuestStatus } from "../../model/magic-mover";
-describe("magic-mover controller", () => {
+describe("MagicMoverController endMission method", () => {
   let res: Response;
   let service: MockMagicMoverService;
   let controller: MagicMoverController;
@@ -20,7 +20,7 @@ describe("magic-mover controller", () => {
     res = getMockRes().res;
   });
 
-  it("Responses with 200 when the magic item is end mission successfully ", async () => {
+  it("Responds with 200 when the magic item is end mission successfully ", async () => {
     const req = getMockReq({ params: { id: "66969497874c503b14a81203" } });
     const item: IMagicMover = createMock<IMagicMover>({
       weightLimit: faker.number.int(),
