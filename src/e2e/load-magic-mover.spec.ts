@@ -1,18 +1,20 @@
 import supertest from "supertest";
+
+import { CreateMagicItemInput } from "../schema/magic-item.schema";
+import { CreateMagicMoverInput } from "../schema/magic-mover.schema";
 import { baseUrl } from "./create-magic-item.spec";
 
 describe("Loads magic-mover by id", () => {
-  const magicItemPayloadOne = {
+  const magicItemPayloadOne: CreateMagicItemInput = {
     name: "first",
     weight: 500,
   };
-  const magicItemPayloadTwo = {
+  const magicItemPayloadTwo: CreateMagicItemInput = {
     name: "second",
     weight: 20,
   };
 
-  const magicMoverPayload = {
-    questState: "resting",
+  const magicMoverPayload: CreateMagicMoverInput = {
     weightLimit: 500,
   };
   it("Responds with 200 when the magic mover is loaded successfully", async () => {
@@ -37,7 +39,7 @@ describe("Loads magic-mover by id", () => {
     expect(res.statusCode).toBe(200);
   });
 
-  it.only("Responds with 429 when the wightLimit cannot holds all items.", async () => {
+  it("Responds with 429 when the wightLimit cannot holds all items.", async () => {
     const { body: createMagicItemOne } = await supertest(baseUrl)
       .post("/magic-item")
       .send(magicItemPayloadOne);

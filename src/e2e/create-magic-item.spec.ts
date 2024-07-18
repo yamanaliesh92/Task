@@ -3,11 +3,12 @@ import supertest from "supertest";
 
 export const baseUrl = "http://localhost:5000";
 
-describe("Creates a new  magic-item", () => {
+describe("Creates a new magic item", () => {
   it("Responses with 200 when the magic item is created successfully", async () => {
     const { body, status } = await supertest(baseUrl)
       .post("/magic-item")
       .send(mockedCreateMagicItemPayload);
+
     expect(status).toBe(201);
     expect(body.name).toEqual(mockedCreateMagicItemPayload.name);
   });

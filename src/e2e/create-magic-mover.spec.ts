@@ -1,4 +1,5 @@
 import supertest from "supertest";
+
 import { mockCreateMagicMoverPayload } from "../mock";
 import { baseUrl } from "./create-magic-item.spec";
 
@@ -12,10 +13,10 @@ describe("Creates a new  magic-mover", () => {
     expect(body.weightLimit).toEqual(mockCreateMagicMoverPayload.weightLimit);
   });
 
-  it("Response should throw bad request with status 400 ", async () => {
-    const { statusCode, body } = await supertest(baseUrl)
+  it("Response with 400 when weightLimit is missing from request ", async () => {
+    const { statusCode } = await supertest(baseUrl)
       .post("/magic-mover")
-      .send({ quest: "resting" });
+      .send({});
 
     expect(statusCode).toBe(400);
   });
