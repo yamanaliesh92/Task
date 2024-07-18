@@ -3,6 +3,7 @@ import { CreateMagicMoverSchema } from "../schema";
 import { MagicMoverController } from "../controller";
 
 import validateResource from "../vaildation";
+import { LoadMagicMoverSchema } from "../schema/magic-mover.schema";
 
 const magicMoverController = new MagicMoverController();
 
@@ -27,6 +28,10 @@ export const MagicMoverRouter = Router();
  *                example: 12
  *              questState:
  *                type: string
+ *                enum:
+ *                  - resting
+ *                  - loading
+ *                  - on-mission
  *                example: resting
  *
  *     responses:
@@ -39,6 +44,10 @@ export const MagicMoverRouter = Router();
  *            properties:
  *              questState:
  *                type: string
+ *                enum:
+ *                  - resting
+ *                  - loading
+ *                  - on-mission
  *              weightLimit:
  *                type: number
  *              id:
@@ -60,8 +69,8 @@ MagicMoverRouter.post(
 
 /**
  * @openapi
- * '/magic-mover/{id}':
- *  get:
+ * '/magic-mover/{id}/load':
+ *  post:
  *     tags:
  *     - Magic-mover
  *     summary: Loads  a magic-mover bg id
@@ -70,6 +79,18 @@ MagicMoverRouter.post(
  *        in: path
  *        description: The id of the magic-mover
  *        required: true
+ *     requestBody:
+ *      required: true
+ *      content:
+ *        application/x-www-form-urlencoded:
+ *           schema:
+ *            type: object
+ *            properties:
+ *              items:
+ *                type: array
+ *                items:
+ *                  type: string
+ *
  *     responses:
  *      200:
  *        description: Success
@@ -93,11 +114,15 @@ MagicMoverRouter.post(
 /**
  *Handel Loading the magic mover byId
  */
-MagicMoverRouter.get("/:id", magicMoverController.loadMagicMover);
+MagicMoverRouter.post(
+  "/:id/load",
+  validateResource(LoadMagicMoverSchema),
+  magicMoverController.loadMagicMover
+);
 
 /**
  * @openapi
- * '/magic-mover/start-mission/{id}':
+ * '/magic-mover/{id}/start-mission':
  *  patch:
  *     tags:
  *     - Magic-mover
@@ -130,14 +155,11 @@ MagicMoverRouter.get("/:id", magicMoverController.loadMagicMover);
 /**
  * Handel starting-mission for a magic mover
  */
-MagicMoverRouter.patch(
-  "/start-mission/:id",
-  magicMoverController.updateStartMission
-);
+MagicMoverRouter.patch("/:id/start-mission", magicMoverController.startMission);
 
 /**
  * @openapi
- * '/magic-mover/end/mission/{id}':
+ * '/magic-mover/{id}/end-mission':
  *  patch:
  *     tags:
  *     - Magic-mover
@@ -170,10 +192,7 @@ MagicMoverRouter.patch(
 /**
  * Handel ending-mission for a magic mover
  */
-MagicMoverRouter.patch(
-  "/end/mission/:id",
-  magicMoverController.updateEndMission
-);
+MagicMoverRouter.patch("/:id/end-mission", magicMoverController.endMission);
 
 /**
  * @openapi
