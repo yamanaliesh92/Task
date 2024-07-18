@@ -11,4 +11,6 @@ export const CreateMagicItemSchema = z.object({
   }),
 });
 
-export type CreateUserInput = z.TypeOf<typeof CreateMagicItemSchema>["body"];
+export type CreateMagicItemInput = z.TypeOf<
+  typeof CreateMagicItemSchema
+>["body"];

@@ -1,34 +1,39 @@
+import { autobind } from "core-decorators";
 import { Request, Response } from "express";
 import { container } from "tsyringe";
-import { autobind } from "core-decorators";
 
-import { MagicMoverService } from "../services";
-import { errorMessages } from "../constant";
-import { logger } from "../logger";
-import { QuestStatus } from "../model/magic-mover";
-import { LoadMagicMoverInput } from "../schema/magic-mover.schema";
-import { MagicMoverIsBusyDomainException } from "../errors/magic-mover-is-busy.exceptiont";
+import { DEFAULT_ERROR, errorMessages } from "../constant";
 import { MagicMoverWeightLimitExceeded } from "../errors";
+import { MagicMoverIsBusyDomainException } from "../errors/magic-mover-is-busy.exception";
+import { logger } from "../logger";
+import { IMagicMover, QuestStatus } from "../model/magic-mover";
+import {
+  CreateMagicMoverInput,
+  LoadMagicMoverInput,
+} from "../schema/magic-mover.schema";
+import { MagicMoverService } from "../services";
+import { IMagicMoverService } from "../services/magic-mover.abstract.service";
+import { error } from "winston";
 
 export class MagicMoverController {
-  private readonly magicMoverService: MagicMoverService;
+  private readonly magicMoverService: IMagicMoverService;
 
   constructor(
-    magicMoverService: MagicMoverService = container.resolve(MagicMoverService)
+    magicMoverService: IMagicMoverService = container.resolve(MagicMoverService)
   ) {
     this.magicMoverService = magicMoverService;
   }
 
   /**
-   * Loads magic mover and ensure that
-   * the magic mover is not on mission already.
+   * Loads magic mover and ensuing that
+   * the magic mover is not on mission already
+   * and the weight is appropriate
    * @param req The request object with the param id inside of it
    * @param res The response object
    */
   @autobind
   async loadMagicMover(req: Request, res: Response): Promise<void> {
-    console.log("++++++");
-    const id = req.params.id;
+    const id: string = req.params.id;
     const body: LoadMagicMoverInput = req.body;
 
     logger.info("Loading magic mover", { id, body });
@@ -46,6 +51,13 @@ export class MagicMoverController {
           .status(404)
           .send({ error: errorMessages.MAGIC_MOVER.MAGIC_MOVER_IS_NOT_FOUND });
 
+        return;
+      }
+
+      if (!body.items?.length) {
+        res
+          .status(400)
+          .send({ error: errorMessages.MAGIC_MOVER.EMPTY_MAGIC_ITEMS });
         return;
       }
 
@@ -81,11 +93,11 @@ export class MagicMoverController {
    * @param res The response object
    */
   @autobind
-  async loadAllMagicMovers(_req: Request, res: Response): Promise<void> {
+  async getMagicMovers(_req: Request, res: Response): Promise<void> {
     try {
-      const magicMover = await this.magicMoverService.getAllMagicMovers();
+      const magicMovers = await this.magicMoverService.getAllMagicMovers();
 
-      res.status(200).send(magicMover);
+      res.status(200).send(magicMovers);
     } catch (error) {
       this.#handleUnexpectedError(
         `Unable to load all magic movers: ${error}`,
@@ -102,7 +114,7 @@ export class MagicMoverController {
    */
   @autobind
   async startMission(req: Request, res: Response): Promise<void> {
-    const id = req.params.id;
+    const id: string = req.params.id;
 
     try {
       const update = await this.magicMoverService?.updateMagicMover(id, {
@@ -128,7 +140,7 @@ export class MagicMoverController {
    */
   @autobind
   async endMission(req: Request, res: Response): Promise<void> {
-    const id = req.params.id;
+    const id: string = req.params.id;
 
     try {
       const magicMover = await this.magicMoverService.getMagicMover(id);
@@ -140,13 +152,15 @@ export class MagicMoverController {
         return;
       }
 
-      const result = await this.#handleMissionEnding(
-        id,
-        magicMover.missionFinished
-      );
+      const success = await this.#endMission(id, magicMover.missionFinished);
 
-      res.status(200).json(result);
-    } catch (error: any) {
+      if (!success) {
+        res.status(500).send(DEFAULT_ERROR);
+        return;
+      }
+
+      res.status(200).json(success);
+    } catch (error) {
       this.#handleUnexpectedError(
         `Unable to update magic item: ${error}`,
         {
@@ -157,16 +171,18 @@ export class MagicMoverController {
     }
   }
   /**
-   * Creates a new  magic mover
+   * Creates a new magic mover
    * @param req The request object with the body id inside of it
    * @param res The response object
    */
   @autobind
   async createMagicMover(req: Request, res: Response): Promise<void> {
-    const body = req.body;
+    const body: CreateMagicMoverInput = req.body;
 
     try {
-      const magicMover = await this.magicMoverService?.createMagicMover(body);
+      const magicMover = await this.magicMoverService?.createMagicMover({
+        weightLimit: body.weightLimit,
+      });
       res.status(201).send(magicMover);
     } catch (error) {
       this.#handleUnexpectedError(
@@ -184,10 +200,13 @@ export class MagicMoverController {
    * @param id The id of the magic mover
    * @param previousCount the precious value of the count
    */
-  async #handleMissionEnding(id: string, previousCount: number) {
+  async #endMission(
+    id: string,
+    previousCount: number
+  ): Promise<IMagicMover | null> {
     const newCount = previousCount + 1;
 
-    return await this.magicMoverService.updateMagicMover(id, {
+    return this.magicMoverService.updateMagicMover(id, {
       questState: QuestStatus.RESTING,
       missionFinished: newCount,
       items: [], // empty the load
