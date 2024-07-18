@@ -15,7 +15,7 @@ export function main() {
       process.exit(1);
     });
 
-  app.get("/hello", (req, res) => {
+  app.get("/hello", (_req, res) => {
     res.status(200).send("is done");
   });
 
