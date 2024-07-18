@@ -2,8 +2,8 @@ import { Router } from "express";
 import { CreateMagicMoverSchema } from "../schema";
 import { MagicMoverController } from "../controller";
 
-import validateResource from "../vaildation";
 import { LoadMagicMoverSchema } from "../schema/magic-mover.schema";
+import validateResource from "../vaildation";
 
 const magicMoverController = new MagicMoverController();
 
@@ -223,4 +223,4 @@ MagicMoverRouter.patch("/:id/end-mission", magicMoverController.endMission);
 /**
  * Handel get all magic movers
  */
-MagicMoverRouter.get("/", magicMoverController.loadAllMagicMovers);
+MagicMoverRouter.get("/", magicMoverController.getMagicMovers);
