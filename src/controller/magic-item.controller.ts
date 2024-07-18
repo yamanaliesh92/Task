@@ -1,5 +1,5 @@
+import { container } from "tsyringe";
 import { Request, Response } from "express";
-import { containert } from "tsyringe";
 import { autobind } from "core-decorators";
 
 import { DEFAULT_ERROR } from "../constant";
