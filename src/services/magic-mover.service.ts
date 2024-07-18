@@ -48,6 +48,7 @@ export class MagicMoverService {
     dto: Partial<IMagicMover>
   ): Promise<IMagicMover | null> {
     if (!this.magicMoverRep) throw new Error("DI Error");
+
     return await this.magicMoverRep.updateMagicMover(id, dto);
   }
 }

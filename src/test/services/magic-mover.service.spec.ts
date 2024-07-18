@@ -28,20 +28,4 @@ describe("magic-mover service", () => {
     const result = await magicMoverSer.createMagicMover(body as IMagicMover);
     expect(result?.questState).toEqual(body.questState);
   });
-
-  it.skip("Get magic-mover byId", async () => {
-    const id = "23134111";
-
-    const magicMover = createMock<IMagicMover>({
-      weightLimit: faker.number.int(),
-      questState: QuestStatus.RESTING,
-      id: new mongoose.Types.ObjectId(),
-    });
-
-    jest
-      .spyOn(magicMoverRep, "getMagicMoverById")
-      .mockResolvedValue(magicMover);
-    const result = await magicMoverSer.getMagicMover(id);
-    expect(result).toHaveBeenCalled();
-  });
 });

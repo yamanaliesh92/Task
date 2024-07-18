@@ -1,3 +1,4 @@
+import { MagicItemRepository } from "../repository";
 import { IMagicItem } from "../model/magic-item";
 import { IMagicMover } from "../model/magic-mover";
 
@@ -53,18 +54,6 @@ export class MockMagicMoverService {
 }
 
 export class MockMagicItemRepository {
-  async getMagicItemById(): Promise<IMagicItem | null> {
-    throw new Error(
-      "Unimplemented function, Please mock using jest.spyOn before usage."
-    );
-  }
-
-  async getAllMagicItems(): Promise<IMagicItem[]> {
-    throw new Error(
-      "Unimplemented function, Please mock using jest.spyOn before usage."
-    );
-  }
-
   async addMagicItem(): Promise<IMagicItem> {
     throw new Error(
       "Unimplemented function, Please mock using jest.spyOn before usage."

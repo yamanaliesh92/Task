@@ -17,11 +17,11 @@ describe("magic-mover controller", () => {
 
   beforeEach(async () => {
     service = new MockMagicMoverService();
-    controller = new MagicMoverController();
+    controller = new MagicMoverController(service);
     res = getMockRes().res;
   });
 
-  it.skip("Responses with 200 when the magic item is created successfully", async () => {
+  it("Responses with 200 when the magic item is created successfully", async () => {
     const req = getMockReq({ body: mockCreateMagicMoverPayload });
 
     const item: IMagicMover = createMock<IMagicMover>({
@@ -36,7 +36,7 @@ describe("magic-mover controller", () => {
     expect(res.send).toHaveBeenCalledWith(item);
   });
 
-  it.skip(`Responds with 500 ${JSON.stringify(
+  it(`Responds with 500 ${JSON.stringify(
     DEFAULT_ERROR
   )} if the service threw an unexpected error.`, async () => {
     const req = getMockReq({ body: mockCreateMagicMoverPayload });

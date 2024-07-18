@@ -37,3 +37,8 @@ MagicMoverRouter.patch(
   "/end/mission/:id",
   magicMoverController.updateEndMission
 );
+
+/**
+ * Handel get all magic movers
+ */
+MagicMoverRouter.get("/", magicMoverController.loadAllMagicMovers);

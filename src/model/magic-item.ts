@@ -8,7 +8,7 @@ interface IMagicItem extends Document {
   magicMoverId: string;
 }
 
-const MagicItemSchema: Schema<IMagicItem> = new Schema(
+const MagicItemSchema: Schema = new Schema(
   {
     name: { type: String, required: true },
     weight: { type: Number, required: true },

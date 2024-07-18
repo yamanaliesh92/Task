@@ -16,11 +16,11 @@ describe("magic-mover controller", () => {
 
   beforeEach(async () => {
     service = new MockMagicMoverService();
-    controller = new MagicMoverController();
+    controller = new MagicMoverController(service);
     res = getMockRes().res;
   });
 
-  it.skip("Responses with 200 when the magic item is loaded successfully ", async () => {
+  it("Responses with 200 when the magic item is loaded successfully ", async () => {
     const req = getMockReq({ params: { id: "66969497874c503b14a81203" } });
     const item: IMagicMover = createMock<IMagicMover>({
       weightLimit: faker.number.int(),
@@ -33,7 +33,7 @@ describe("magic-mover controller", () => {
     expect(res.status).toHaveBeenCalledWith(200);
   });
 
-  it.skip(`Responds with 500 ${JSON.stringify(
+  it(`Responds with 500 ${JSON.stringify(
     DEFAULT_ERROR
   )} if the service threw an unexpected error.`, async () => {
     const req = getMockReq({ params: { id: "66969497874c503b14a81203" } });

@@ -8,10 +8,12 @@ import { logger } from "../logger";
 import { QuestStatus } from "../model/magic-mover";
 
 export class MagicMoverController {
-  private magicMoverService: MagicMoverService;
+  private readonly magicMoverService: MagicMoverService;
 
-  constructor() {
-    this.magicMoverService = container.resolve(MagicMoverService);
+  constructor(
+    magicMoverService: MagicMoverService = container.resolve(MagicMoverService)
+  ) {
+    this.magicMoverService = magicMoverService;
   }
 
   /**
@@ -74,20 +76,9 @@ export class MagicMoverController {
     const id = req.params.id;
 
     try {
-      const findMagicMover = await this.magicMoverService.getMagicMover(id);
-
-      if (!findMagicMover) {
-        res.status(404).send({
-          error: errorMessages.MAGIC_MOVER.MAGIC_MOVER__ALREADY_ON_MISSION,
-        });
-      }
-
-      const count = findMagicMover?.count;
-      const newCount = count ? count + 1 : count;
       const updateToStartMission =
         await this.magicMoverService?.updateMagicMover(id, {
           questState: QuestStatus.ON_MISSION,
-          count: newCount,
         });
       res.status(200).json(updateToStartMission);
     } catch (error) {
@@ -108,8 +99,17 @@ export class MagicMoverController {
   async updateEndMission(req: Request, res: Response): Promise<void> {
     const id = req.params.id;
     try {
+      const findMagicMover = await this.magicMoverService.getMagicMover(id);
+      if (!findMagicMover) {
+        res.status(404).send({
+          error: errorMessages.MAGIC_MOVER.MAGIC_MOVER__ALREADY_ON_MISSION,
+        });
+        return;
+      }
+      const newCount = findMagicMover.count + 1;
       const result = await this.magicMoverService.updateMagicMover(id, {
         questState: QuestStatus.RESTING,
+        count: newCount,
       });
       res.status(200).json(result);
     } catch (error: any) {

@@ -10,14 +10,14 @@ export enum QuestStatus {
 interface IMagicMover extends Document {
   weightLimit: number;
   questState: QuestStatus;
-  count?: number;
+  count: number;
 }
 
 const MagicMoverSchema: Schema<IMagicMover> = new Schema(
   {
     weightLimit: { type: Number, required: true },
     questState: { type: String, enum: QuestStatus, required: true },
-    count: { type: Number, default: 0, required: false },
+    count: { type: Number, default: 0, required: true },
   },
   { timestamps: true, versionKey: false }
 );

@@ -1,15 +1,16 @@
 import { MagicItemRepository } from "../repository";
-import { autoInjectable } from "tsyringe";
+import { autoInjectable, inject } from "tsyringe";
 import { container } from "tsyringe";
 import { IMagicItem } from "../model/magic-item";
 
 @autoInjectable()
 export class MagicItemService {
-  private readonly magicMoverRep: MagicItemRepository;
+  // private readonly magicMoverRep: MagicItemRepository;
 
-  constructor() {
-    this.magicMoverRep = container.resolve(MagicItemRepository);
-  }
+  constructor(
+    @inject(MagicItemRepository)
+    private readonly magicMoverRep?: MagicItemRepository
+  ) {}
 
   /**
    * Create a new magic item by make call to addMagicItem func

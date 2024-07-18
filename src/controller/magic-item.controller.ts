@@ -7,10 +7,12 @@ import { MagicItemService } from "../services";
 import { logger } from "../logger";
 
 export class MagicItemController {
-  private magicItemService: MagicItemService;
+  private readonly magicItemService: MagicItemService;
 
-  constructor() {
-    this.magicItemService = container.resolve(MagicItemService);
+  constructor(
+    magicItemService: MagicItemService = container.resolve(MagicItemService)
+  ) {
+    this.magicItemService = magicItemService;
   }
 
   /**

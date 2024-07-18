@@ -18,7 +18,7 @@ describe("magic-item controller", () => {
 
   beforeEach(async () => {
     service = new MockMagicItemService();
-    controller = new MagicItemController();
+    controller = new MagicItemController(service);
     res = getMockRes().res;
   });
 
