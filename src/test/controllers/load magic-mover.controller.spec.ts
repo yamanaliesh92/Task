@@ -29,7 +29,7 @@ describe("MagicMoverController load", () => {
 
     const req = getMockReq({
       params: { id: "66969497874c503b14a81203" },
-      body: items,
+      body: { items },
     });
 
     const item: IMagicMover = createMock<IMagicMover>({
@@ -61,6 +61,6 @@ describe("MagicMoverController load", () => {
     jest.spyOn(service, "getMagicMover").mockResolvedValue(item);
 
     await controller.loadMagicMover(req, res);
-    expect(res.status).toHaveBeenCalledWith(500);
+    expect(res.status).toHaveBeenCalledWith(400);
   });
 });

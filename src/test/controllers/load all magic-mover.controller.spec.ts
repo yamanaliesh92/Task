@@ -66,6 +66,6 @@ describe("MagicMoverController getMagicMovers method", () => {
     jest.spyOn(service, "getMagicMover").mockResolvedValue(item);
 
     await controller.loadMagicMover(req, res);
-    expect(res.status).toHaveBeenCalledWith(500);
+    expect(res.status).toHaveBeenCalledWith(400);
   });
 });
