@@ -1,8 +1,11 @@
 import { Request, Response } from "express";
 import { container } from "tsyringe";
-
 import { autobind } from "core-decorators";
+
 import { MagicMoverService } from "../services";
+import { DEFAULT_ERROR, errorMessages } from "../constant";
+import { logger } from "../logger";
+import { QuestStatus } from "../model/magic-mover";
 
 export class MagicMoverController {
   private magicMoverService: MagicMoverService;
@@ -130,7 +133,7 @@ export class MagicMoverController {
       const magicMover = await this.magicMoverService?.createMagicMover(body);
       res.status(201).send(magicMover);
     } catch (error) {
-      logger.error(`Unable to create magic item: ${error}`, {
+      logger.error(`Unable to create magic mover: ${error}`, {
         body: req.body,
       });
 

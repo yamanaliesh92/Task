@@ -1,6 +1,6 @@
 import winston from "winston";
 
-const logger = winston.createLogger({
+export const logger = winston.createLogger({
   level: "info",
   format: winston.format.json(),
   defaultMeta: { service: "magic-mover-service" },
@@ -13,5 +13,3 @@ if (process.env.NODE_ENV !== "production") {
     })
   );
 }
-
-export { logger };

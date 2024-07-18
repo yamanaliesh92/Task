@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
-import { container, inject } from "tsyringe";
+import { containert } from "tsyringe";
 import { autobind } from "core-decorators";
 
-import MagicItemService from "../services/magic-item.service";
-import { logger } from "../logger";
 import { DEFAULT_ERROR } from "../constant";
+import { MagicItemService } from "../services";
+import { logger } from "../logger";
 
 export class MagicItemController {
   private magicItemService: MagicItemService;
