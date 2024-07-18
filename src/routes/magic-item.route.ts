@@ -28,10 +28,6 @@ export const MagicItemRouter = Router();
  *              name:
  *                type: string
  *                example: test
- *              magicMoverId:
- *                type: string
- *                example: "12312sa"
- *
  *     responses:
  *      200:
  *        description: Success
