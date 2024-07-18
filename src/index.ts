@@ -34,7 +34,7 @@ export function main() {
   app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(spaces));
 
   app.listen(5000, () => {
-    console.log("listen to this this");
+    console.log("test");
   });
 }
 
