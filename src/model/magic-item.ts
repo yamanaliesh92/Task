@@ -5,14 +5,12 @@ import { Schema, Document, Model } from "mongoose";
 interface IMagicItem extends Document {
   name: string;
   weight: number;
-  magicMoverId: string;
 }
 
 const MagicItemSchema: Schema = new Schema(
   {
     name: { type: String, required: true },
     weight: { type: Number, required: true },
-    magicMoverId: { type: mongoose.Types.ObjectId, ref: "MagicMover" },
   },
   { timestamps: true, versionKey: false }
 );
