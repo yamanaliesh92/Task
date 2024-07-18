@@ -1,4 +1,3 @@
-import { logger } from "./../logger/winstow";
 import { MagicItemModel } from "../model";
 import { injectable } from "tsyringe";
 import { IMagicItem } from "../model/magic-item";

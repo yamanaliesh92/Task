@@ -1,10 +1,9 @@
-import mongoose from "mongoose";
-
-import { Schema, Document, Model } from "mongoose";
+import mongoose, { Schema, Document, Model } from "mongoose";
 
 interface IMagicItem extends Document {
   name: string;
   weight: number;
+  magicMoverId: string;
 }
 
 const MagicItemSchema: Schema = new Schema(

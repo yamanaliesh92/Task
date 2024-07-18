@@ -1,10 +1,11 @@
 import { autobind } from "core-decorators";
 import { Request, Response } from "express";
+import { IMagicMoverService } from "../services/magic-mover.abstract.service";
 import { container } from "tsyringe";
 
 import { DEFAULT_ERROR, errorMessages } from "../constant";
 import { MagicMoverWeightLimitExceeded } from "../errors";
-import { MagicMoverIsBusyDomainException } from "../errors/magic-mover-is-busy.exception";
+
 import { logger } from "../logger";
 import { IMagicMover, QuestStatus } from "../model/magic-mover";
 import {
@@ -12,8 +13,7 @@ import {
   LoadMagicMoverInput,
 } from "../schema/magic-mover.schema";
 import { MagicMoverService } from "../services";
-import { IMagicMoverService } from "../services/magic-mover.abstract.service";
-import { error } from "winston";
+import { MagicMoverIsBusyDomainException } from "../errors/magic-mover-is-busy.exceptiont";
 
 export class MagicMoverController {
   private readonly magicMoverService: IMagicMoverService;

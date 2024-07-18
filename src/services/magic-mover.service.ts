@@ -3,14 +3,18 @@ import { inject, injectable } from "tsyringe";
 import { MagicItemRepository, MagicMoverRepository } from "../repository";
 import { MagicMoverWeightLimitExceeded } from "../errors/magic-mover-weight-limit-exceeded.exception";
 import { IMagicMover, QuestStatus } from "../model/magic-mover";
-import { errorMessages } from "../constant";
 import { logger } from "../logger";
-import { MagicMoverIsBusyDomainException } from "../errors/magic-mover-is-busy.exceptiont";
+
 import { IMagicItem } from "../model/magic-item";
 import { DomainException } from "../errors";
+import {
+  ICreateMagicMoverDto,
+  IMagicMoverService,
+} from "./magic-mover.abstract.service";
+import { MagicMoverIsBusyDomainException } from "../errors/magic-mover-is-busy.exceptiont";
 
 @injectable()
-export class MagicMoverService {
+export class MagicMoverService implements IMagicMoverService {
   constructor(
     @inject(MagicMoverRepository)
     private readonly magicMoverRep?: MagicMoverRepository,
@@ -26,7 +30,7 @@ export class MagicMoverService {
   async getMagicMover(id: string): Promise<IMagicMover | null> {
     if (!this.magicMoverRep) throw new DomainException("DI Error");
 
-    return await this.magicMoverRep?.getMagicMoverById(id);
+    return await this.magicMoverRep?.get(id);
   }
 
   /**
@@ -35,16 +39,21 @@ export class MagicMoverService {
    */
   async getAllMagicMovers(): Promise<IMagicMover[]> {
     if (!this.magicMoverRep) throw new DomainException("DI Error");
-    return await this.magicMoverRep.getAllMagicMovers();
+    return await this.magicMoverRep.list();
   }
 
   /**
    * @param dto The payload to create a new magic item
    * @returns
    */
-  async createMagicMover(dto: IMagicMover): Promise<IMagicMover> {
+  async createMagicMover(dto: ICreateMagicMoverDto): Promise<IMagicMover> {
     if (!this.magicMoverRep) throw new DomainException("DI Error");
-    return await this.magicMoverRep.addMagicMover(dto);
+
+    return await this.magicMoverRep.create({
+      weightLimit: dto.weightLimit,
+      questState: QuestStatus.RESTING,
+      items: [],
+    });
   }
 
   /**
@@ -59,7 +68,7 @@ export class MagicMoverService {
   ): Promise<IMagicMover | null> {
     if (!this.magicMoverRep) throw new DomainException("DI Error");
 
-    return await this.magicMoverRep.updateMagicMover(id, dto);
+    return await this.magicMoverRep.update(id, dto);
   }
 
   /**
@@ -90,16 +99,16 @@ export class MagicMoverService {
     });
 
     // Ensure the magic mover is not on mission
-    this.validateMagicMoverStatus(magicMover);
+    this.#validateMagicMoverStatus(magicMover);
 
     // Ensure we are not exceeding the weight
-    this.validateMagicMoverLoadedWeight(
+    this.#validateMagicMoverLoadedWeight(
       totalItemsToLoad,
       magicMover.weightLimit,
       magicMover.id
     );
 
-    return this.magicMoverRep.updateMagicMover(magicMover.id, {
+    return this.magicMoverRep.update(magicMover.id, {
       questState: QuestStatus.LOADING,
       items: totalItems,
     });
@@ -109,7 +118,7 @@ export class MagicMoverService {
    * Ensure that magic mover is not on a mission
    * @param magicMover The magic mover to validate the status for
    */
-  validateMagicMoverStatus(magicMover: IMagicMover) {
+  #validateMagicMoverStatus(magicMover: IMagicMover) {
     if (magicMover.questState === QuestStatus.ON_MISSION) {
       throw new MagicMoverIsBusyDomainException(magicMover.id);
     }
@@ -121,7 +130,7 @@ export class MagicMoverService {
    * @param weightLimit the magic mover weight limit
    * @param magicMoverId the id of the magic mover
    */
-  validateMagicMoverLoadedWeight(
+  #validateMagicMoverLoadedWeight(
     totalItemsToLoad: IMagicItem[],
     weightLimit: number,
     magicMoverId: string

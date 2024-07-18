@@ -1,12 +1,12 @@
 import { autobind } from "core-decorators";
 import { Request, Response } from "express";
+import { IMagicItemService } from "../services/magic-item.abstract.service";
 import { container } from "tsyringe";
 
 import { DEFAULT_ERROR } from "../constant";
 import { logger } from "../logger";
 import { CreateMagicItemInput } from "../schema/magic-item.schema";
 import { MagicItemService } from "../services";
-import { IMagicItemService } from "../services/magic-item.abstract.service";
 
 export class MagicItemController {
   private readonly magicItemService: IMagicItemService;

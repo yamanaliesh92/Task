@@ -1,5 +1,4 @@
-import mongoose, { mongo } from "mongoose";
-import { Schema, Document, Model } from "mongoose";
+import mongoose, { Schema, Document, Model } from "mongoose";
 
 export enum QuestStatus {
   RESTING = "resting",

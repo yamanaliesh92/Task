@@ -1,16 +1,13 @@
-import { MagicItemRepository } from "../repository";
+import { faker } from "@faker-js/faker";
+
 import { IMagicItem } from "../model/magic-item";
 import { IMagicMover } from "../model/magic-mover";
+import { CreateMagicMoverInput } from "../schema/magic-mover.schema";
+import { IMagicItemService } from "../services/magic-item.abstract.service";
+import { IMagicMoverService } from "../services/magic-mover.abstract.service";
 
-export const mockMagicMoverResponse = {
-  id: "1234",
-  weight: 100,
-  quest: "resting",
-};
-
-export const mockCreateMagicMoverPayload = {
-  weightLimit: 100,
-  questState: "resting",
+export const mockCreateMagicMoverPayload: CreateMagicMoverInput = {
+  weightLimit: faker.number.int(),
 };
 
 export const mockedCreateMagicItemPayload = {
@@ -18,26 +15,8 @@ export const mockedCreateMagicItemPayload = {
   name: "test",
 };
 
-export const mockCreateMagicItemResponse = {
-  _id: "412421421",
-  weight: "669694a4874c503b14a81206",
-  name: "test",
-};
-
-export class MockMagicMoverService {
+export class MockMagicMoverService implements IMagicMoverService {
   async getMagicMover(): Promise<IMagicMover | null> {
-    throw new Error(
-      "Unimplemented function, Please mock using jest.spyOn before usage."
-    );
-  }
-
-  validateMagicMoverStatus() {
-    throw new Error(
-      "Unimplemented function, Please mock using jest.spyOn before usage."
-    );
-  }
-
-  validateMagicMoverLoadedWeight() {
     throw new Error(
       "Unimplemented function, Please mock using jest.spyOn before usage."
     );
@@ -48,18 +27,20 @@ export class MockMagicMoverService {
       "Unimplemented function, Please mock using jest.spyOn before usage."
     );
   }
+
   async getAllMagicMovers(): Promise<IMagicMover[]> {
     throw new Error(
       "Unimplemented function, Please mock using jest.spyOn before usage."
     );
   }
+
   async createMagicMover(): Promise<IMagicMover> {
     throw new Error(
       "Unimplemented function, Please mock using jest.spyOn before usage."
     );
   }
 
-  async updateMagicMover(): Promise<IMagicMover | null> {
+  async updateMagicMover(): Promise<IMagicMover> {
     throw new Error(
       "Unimplemented function, Please mock using jest.spyOn before usage."
     );
@@ -81,32 +62,32 @@ export class MockMagicItemRepository {
 }
 
 export class MockMagicMoverRepository {
-  async getMagicMoverById(): Promise<IMagicMover | null> {
+  async get(): Promise<IMagicMover | null> {
     throw new Error(
       "Unimplemented function, Please mock using jest.spyOn before usage."
     );
   }
 
-  async getAllMagicMovers(): Promise<IMagicMover[]> {
+  async list(): Promise<IMagicMover[]> {
     throw new Error(
       "Unimplemented function, Please mock using jest.spyOn before usage."
     );
   }
 
-  async addMagicMover(): Promise<IMagicMover> {
+  async create(): Promise<IMagicMover> {
     throw new Error(
       "Unimplemented function, Please mock using jest.spyOn before usage."
     );
   }
 
-  async updateMagicMover(): Promise<IMagicMover> {
+  async update(): Promise<IMagicMover> {
     throw new Error(
       "Unimplemented function, Please mock using jest.spyOn before usage."
     );
   }
 }
 
-export class MockMagicItemService {
+export class MockMagicItemService implements IMagicItemService {
   async createMagicItem(): Promise<IMagicItem> {
     throw new Error(
       "Unimplemented function, Please mock using jest.spyOn before usage."
