@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { mongo } from "mongoose";
 import { Schema, Document, Model } from "mongoose";
 
 export enum QuestStatus {
@@ -10,14 +10,16 @@ export enum QuestStatus {
 interface IMagicMover extends Document {
   weightLimit: number;
   questState: QuestStatus;
-  count: number;
+  missionFinished: number;
+  items: string[];
 }
 
 const MagicMoverSchema: Schema<IMagicMover> = new Schema(
   {
     weightLimit: { type: Number, required: true },
     questState: { type: String, enum: QuestStatus, required: true },
-    count: { type: Number, default: 0, required: true },
+    missionFinished: { type: Number, default: 0, required: true },
+    items: [{ type: Schema.Types.ObjectId, ref: "MagicItem" }],
   },
   { timestamps: true, versionKey: false }
 );
