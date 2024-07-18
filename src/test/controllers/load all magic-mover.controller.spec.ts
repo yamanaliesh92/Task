@@ -20,7 +20,7 @@ describe("magic-mover controller", () => {
     res = getMockRes().res;
   });
 
-  it("Responses with 200 when the magic item is loaded successfully ", async () => {
+  it("Responses with 200 when the magic item is loaded all magic-mover successfully ", async () => {
     const req = getMockReq();
 
     const items = [
