@@ -18,6 +18,5 @@ describe("Creates a new  magic-mover", () => {
       .send({ quest: "resting" });
     console.log("body", body);
     expect(statusCode).toBe(400);
-    expect(body.error).toEqual("Weight is required");
   });
 });

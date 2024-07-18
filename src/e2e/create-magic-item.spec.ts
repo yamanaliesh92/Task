@@ -12,8 +12,8 @@ describe("Creates a new  magic-item", () => {
     expect(body.name).toEqual(mockedCreateMagicItemPayload.name);
   });
 
-  it.only("Response should throw bad request with status 400 ", async () => {
-    const { statusCode, body } = await supertest(baseUrl)
+  it("Response should throw bad request with status 400 ", async () => {
+    const { statusCode } = await supertest(baseUrl)
       .post("/magic-item")
       .send({
         ...mockedCreateMagicItemPayload,

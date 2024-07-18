@@ -14,13 +14,13 @@ describe("magic-item service", () => {
   it("create magic-mover is created successfully", async () => {
     const body = {
       weight: faker.number.int(),
-      name: faker.commerce.productName(),
+      name: "test",
       magicMoverId: "669857009ece259c52fe8399",
     };
 
     const item: IMagicItem = createMock<IMagicItem>({
       weight: faker.number.int(),
-      name: faker.commerce.productName(),
+      name: "test",
       magicMoverId: "669857009ece259c52fe8399",
       id: new mongoose.Types.ObjectId(),
     });

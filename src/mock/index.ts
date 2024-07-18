@@ -13,14 +13,10 @@ export const mockCreateMagicMoverPayload = {
   questState: "resting",
 };
 
-export const mockUpdateMagicMoverPayload = {
-  quest: "loading",
-};
-
 export const mockedCreateMagicItemPayload = {
   weight: 123,
   name: "test",
-  magicMoverId: "66982a643401699bddc6ea21",
+  magicMoverId: "6698d95610cfb9b7a6d3b735",
 };
 
 export const mockCreateMagicItemResponse = {

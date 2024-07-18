@@ -1,14 +1,14 @@
-import { object, TypeOf, string } from "zod";
+import * as z from "zod";
 
-export const CreateMagicItemSchema = object({
-  body: object({
-    name: string({
+export const CreateMagicItemSchema = z.object({
+  body: z.object({
+    name: z.string({
       required_error: "Name is required",
     }),
-    weight: string({
+    weight: z.number({
       required_error: "Weight is required",
     }),
   }),
 });
 
-export type CreateUserInput = TypeOf<typeof CreateMagicItemSchema>["body"];
+export type CreateUserInput = z.TypeOf<typeof CreateMagicItemSchema>["body"];

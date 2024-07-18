@@ -1,8 +1,8 @@
 import { Router } from "express";
+import { CreateMagicItemSchema } from "../schema/magic-item.schema";
 
 import { MagicItemController } from "../controller";
 import validateResource from "../vaildation";
-import { CreateMagicItemSchema } from "../schema";
 
 const magicItemController = new MagicItemController();
 
