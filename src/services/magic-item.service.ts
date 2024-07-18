@@ -4,7 +4,7 @@ import { container } from "tsyringe";
 import { IMagicItem } from "../model/magic-item";
 
 @autoInjectable()
-class MagicItemService {
+export class MagicItemService {
   private readonly magicMoverRep: MagicItemRepository;
 
   constructor() {
@@ -22,4 +22,3 @@ class MagicItemService {
     return this.magicMoverRep.addMagicItem(dto);
   }
 }
-export default MagicItemService;
