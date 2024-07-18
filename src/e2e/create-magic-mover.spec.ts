@@ -9,14 +9,14 @@ describe("Creates a new  magic-mover", () => {
       .send(mockCreateMagicMoverPayload);
 
     expect(status).toBe(201);
-    expect(body.weight).toEqual(mockCreateMagicMoverPayload.weightLimit);
+    expect(body.weightLimit).toEqual(mockCreateMagicMoverPayload.weightLimit);
   });
 
-  it.only("Response should throw bad request with status 400 ", async () => {
+  it("Response should throw bad request with status 400 ", async () => {
     const { statusCode, body } = await supertest(baseUrl)
       .post("/magic-mover")
       .send({ quest: "resting" });
-    console.log("body", body);
+
     expect(statusCode).toBe(400);
   });
 });

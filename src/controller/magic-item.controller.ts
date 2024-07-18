@@ -1,37 +1,22 @@
-import { container } from "tsyringe";
-import { Request, Response } from "express";
-import { autobind } from "core-decorators";
+import { MagicItemRepository } from "../repository";
+import { autoInjectable, inject } from "tsyringe";
+import { IMagicItem } from "../model/magic-item";
+import { DomainException } from "../errors";
 
-import { DEFAULT_ERROR } from "../constant";
-import { MagicItemService } from "../services";
-import { logger } from "../logger";
-
-export class MagicItemController {
-  private readonly magicItemService: MagicItemService;
-
+@autoInjectable()
+export class MagicItemService {
   constructor(
-    magicItemService: MagicItemService = container.resolve(MagicItemService)
-  ) {
-    this.magicItemService = magicItemService;
-  }
+    @inject(MagicItemRepository)
+    private readonly magicMoverRep?: MagicItemRepository
+  ) {}
 
   /**
-   * Creates a new magic item
-   * @param req The request object with the body id inside of it
-   * @param res The response object
+   * Create a new magic item by make call to addMagicItem func
+   * @param dto The payload to create a new magic item
    */
-  @autobind
-  async createMagicItem(req: Request, res: Response): Promise<void> {
-    const body = req.body;
-    try {
-      const magicItem = await this.magicItemService.createMagicItem(body);
-      res.status(201).send(magicItem);
-    } catch (error) {
-      logger.error(`Unable to create magic item: ${error}`, {
-        body: req.body,
-      });
+  async createMagicItem(dto: IMagicItem): Promise<IMagicItem> {
+    if (!this.magicMoverRep) throw new DomainException("DI Error");
 
-      res.status(500).send(DEFAULT_ERROR);
-    }
+    return this.magicMoverRep.addMagicItem(dto);
   }
 }
