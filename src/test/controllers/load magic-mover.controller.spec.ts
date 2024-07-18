@@ -21,14 +21,28 @@ describe("magic-mover controller", () => {
   });
 
   it("Responses with 200 when the magic item is loaded successfully ", async () => {
-    const req = getMockReq({ params: { id: "66969497874c503b14a81203" } });
+    const items = [
+      "76969497874c503b14a81203",
+      "51969497874c503b14a81203",
+      "32969497874c503b14a81203",
+    ];
+    const req = getMockReq({
+      params: { id: "66969497874c503b14a81203" },
+      body: items,
+    });
     const item: IMagicMover = createMock<IMagicMover>({
       weightLimit: faker.number.int(),
       questState: QuestStatus.RESTING,
       id: new mongoose.Types.ObjectId(),
+      items: [
+        "76969497874c503b14a81203",
+        "51969497874c503b14a81203",
+        "32969497874c503b14a81203",
+      ],
     });
+    jest.spyOn(service, "loadMagicMover").mockResolvedValue(item);
     jest.spyOn(service, "getMagicMover").mockResolvedValue(item);
-    jest.spyOn(service, "updateMagicMover").mockResolvedValue(item);
+
     await controller.loadMagicMover(req, res);
     expect(res.status).toHaveBeenCalledWith(200);
   });

@@ -29,7 +29,7 @@ describe("magic-mover controller", () => {
     });
 
     jest.spyOn(service, "updateMagicMover").mockResolvedValue(item);
-    await controller.updateStartMission(req, res);
+    await controller.startMission(req, res);
     expect(res.status).toHaveBeenCalledWith(200);
   });
 
@@ -42,7 +42,7 @@ describe("magic-mover controller", () => {
       .spyOn(service, "getMagicMover")
       .mockRejectedValue(new Error("something went wrong."));
 
-    await controller.loadMagicMover(req, res);
+    await controller.startMission(req, res);
     expect(res.status).toHaveBeenCalledWith(500);
   });
 });

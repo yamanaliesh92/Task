@@ -21,7 +21,6 @@ describe("magic-item service", () => {
     const item: IMagicItem = createMock<IMagicItem>({
       weight: faker.number.int(),
       name: "test",
-      magicMoverId: "669857009ece259c52fe8399",
       id: new mongoose.Types.ObjectId(),
     });
 

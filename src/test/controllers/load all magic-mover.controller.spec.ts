@@ -28,17 +28,20 @@ describe("magic-mover controller", () => {
         weightLimit: 100,
         questState: QuestStatus.RESTING,
         id: new mongoose.Types.ObjectId(),
-        count: 0,
+        items: ["129993193913", "19391929921912912"],
+        missionFinished: 0,
       },
       {
         weightLimit: 200,
         questState: QuestStatus.LOADING,
         id: new mongoose.Types.ObjectId(),
-        count: 1,
+        items: ["6299931939153", "49391941342"],
+        missionFinished: 1,
       },
       {
         weightLimit: 400,
-        count: 2,
+        missionFinished: 2,
+        items: ["456299931939153", "909391941342"],
         questState: QuestStatus.ON_MISSION,
         id: new mongoose.Types.ObjectId(),
       },
@@ -54,7 +57,7 @@ describe("magic-mover controller", () => {
   it(`Responds with 500 ${JSON.stringify(
     DEFAULT_ERROR
   )} if the service threw an unexpected error.`, async () => {
-    const req = getMockReq({ params: { id: "66969497874c503b14a81203" } });
+    const req = getMockReq();
     const item: IMagicMover = createMock<IMagicMover>({
       weightLimit: faker.number.int(),
       questState: QuestStatus.RESTING,
